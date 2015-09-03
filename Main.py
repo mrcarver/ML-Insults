@@ -13,6 +13,11 @@ import Fcts
 # Numpy is an external module (That may require loading on HPC/NERSC) that allows C-like matrix manipulation and math.
 import numpy as np
 
+Plot_ROC = True
+Save_Plots = True
+Print_NB_Probs = True
+
+
 # Initalizes a dictionary, which will be filled based solely on the components of the training set.
 
 Dictionary=[]
@@ -62,6 +67,7 @@ NB_Prob=Fcts.Naive_Bayes(Train_Set,Dictionary,N_Insult)
 Num_Right=0
 False_Positive=0
 Correct_Insults=0
+Insult_Prob=np.empty([N_Train])
 for i in xrange(0,N_Train):
 	Words=Train_Set[i][7].split()
 	Prob_Sum=0.0
@@ -73,20 +79,26 @@ for i in xrange(0,N_Train):
 		Ind_Prob=NB_Prob[1,Word_Index]*(N_Insult/float(N_Train))/(NB_Prob[1,Word_Index]*(N_Insult/float(N_Train))+NB_Prob[2,Word_Index]*(1-N_Insult/float(N_Train)))
 		Prob_Sum=Prob_Sum+(np.log(1-Ind_Prob)-np.log(Ind_Prob))
 	if(Prob_Sum>40.0):
-		Insult_Prob=0.0
+		Insult_Prob[i]=0.0
 	elif(np.isneginf(Prob_Sum)):
-		Insult_Prob=1.0
+		Insult_Prob[i]=1.0
 	elif(np.isinf(Prob_Sum)):
-		Insult_Prob=0.0
+		Insult_Prob[i]=0.0
 	else:
-		Insult_Prob=1/(1+np.exp(Prob_Sum))
-	if(Train_Set[i][0]==round(Insult_Prob)):
+		Insult_Prob[i]=1/(1+np.exp(Prob_Sum))
+	if(Train_Set[i][0]==round(Insult_Prob[i])):
 		Num_Right=Num_Right+1
-	if((Train_Set[i][0]==0) and (Insult_Prob>=0.5)):
+	if((Train_Set[i][0]==0) and (Insult_Prob[i]>=0.5)):
 		False_Positive=False_Positive+1
-	if((Train_Set[i][0]==1) and (Insult_Prob>=0.5)):
+	if((Train_Set[i][0]==1) and (Insult_Prob[i]>=0.5)):
 		Correct_Insults=Correct_Insults+1
 
-print "Probability of getting a correct classification: " + str(Num_Right/float(N_Train))
-print "Probability of generating a false positive: " + str(False_Positive/float(N_Train-N_Insult))
-print "Probability of correctly identifying insults: " + str(Correct_Insults/float(N_Insult))
+# Prints probability of getting training set classifications correct.
+if(Print_NB_Probs):
+	print "Probability of getting a correct classification: " + str(Num_Right/float(N_Train))
+	print "Probability of generating a false positive: " + str(False_Positive/(False_Positive+float(N_Train-N_Insult)))
+	print "Probability of correctly identifying insults: " + str(Correct_Insults/float(N_Insult))
+
+# Plots the ROC, and if Save_Plots==True, it saves it in "ROC.png"
+if(Plot_ROC):
+	Fcts.ROC(Train_Set,Insult_Prob,Save_Plots,N_Insult)

@@ -2,6 +2,7 @@ import unicodedata
 import unidecode
 import string
 import numpy as np
+import matplotlib.pyplot as plt
 
 def Read_Data(filename):
 	IN=open(filename,"r")
@@ -70,3 +71,31 @@ def Naive_Bayes(Train,Dictionary,Class_Count):
 
 	Prob=np.matrix([Count[:,0]/N_Train,Count[:,1]/Class_Count,Count[:,2]/(N_Train-Class_Count)])
 	return Prob
+
+def ROC(Train,Prob,Save,N_Insult):
+	N_Train=len(Train)
+	Bin_Width=0.01
+	Bins=np.arange(start=0.0,stop=1.0+Bin_Width,step=Bin_Width)
+	N_Bins=len(Bins)
+	False_Positives=np.empty([N_Bins])
+	True_Positives=np.empty([N_Bins])
+	for i in xrange(0,N_Bins):
+		TP_Count=0
+		FP_Count=0
+		for j in xrange(0,N_Train):
+			if(Prob[j]>=Bins[i]):
+				if(Train[j][0]==1):
+					TP_Count=TP_Count+1
+				else:
+					FP_Count=FP_Count+1
+		True_Positives[i]=TP_Count/float(N_Insult)
+		False_Positives[i]=FP_Count/float(FP_Count+N_Train-N_Insult)
+	plt.plot(False_Positives,True_Positives)
+	plt.xlim([0.0,1.0])
+	plt.xlabel("False Positive Rate")
+	plt.ylim([0.0,1.0])
+	plt.ylabel("True Positive Rate")
+	if(Save):
+		plt.savefig("ROC.png")
+	else:
+		plt.show()

@@ -82,7 +82,7 @@ def ROC(Train,Prob,Save,N_Insult):
 	for i in range(0,N_Bins):
 		TP_Count=0
 		FP_Count=0
-		for j in xrange(0,N_Train):
+		for j in range(0,N_Train):
 			if(Prob[j]>=Bins[i]):
 				if(Train[j][0]==1):
 					TP_Count=TP_Count+1

@@ -40,9 +40,9 @@ N_Train=len(Train_Set)
 # Creates the dictionary, and counts the number of insults for use in later statistics.  All dictionary elements are lower case, and do not have apostrophes, quotations.
 
 N_Insult=0
-for i in xrange(0,N_Train):
+for i in range(0,N_Train):
 	Words=Train_Set[i][7].split()
-	for j in xrange(0,len(Words)):
+	for j in range(0,len(Words)):
 		k=0
 		Word_Check=Words[j].strip('"')
 		Word_Check=Word_Check.strip('.')
@@ -52,7 +52,7 @@ for i in xrange(0,N_Train):
 	if(Train_Set[i][0]==1):
 		N_Insult=N_Insult+1
 
-print N_Insult, N_Train
+print (N_Insult, N_Train)
 
 # Calls a function to generate the probability needed for using the Naive Bayes Rule for insult classification.  NB_Prob is a 3 x (N_words) matrix, which contains three probabilities for each word:
 #	[0] : Probability this word is encountered in a comment in the training set
@@ -68,10 +68,10 @@ Num_Right=0
 False_Positive=0
 Correct_Insults=0
 Insult_Prob=np.empty([N_Train])
-for i in xrange(0,N_Train):
+for i in range(0,N_Train):
 	Words=Train_Set[i][7].split()
 	Prob_Sum=0.0
-	for j in xrange(0,len(Words)):
+	for j in range(0,len(Words)):
 		Word_Check=Words[j].strip('"')
 		Word_Check=Word_Check.strip('.')
 		Word_Check=Word_Check.lower()
@@ -95,9 +95,9 @@ for i in xrange(0,N_Train):
 
 # Prints probability of getting training set classifications correct.
 if(Print_NB_Probs):
-	print "Probability of getting a correct classification: " + str(Num_Right/float(N_Train))
-	print "Probability of generating a false positive: " + str(False_Positive/(False_Positive+float(N_Train-N_Insult)))
-	print "Probability of correctly identifying insults: " + str(Correct_Insults/float(N_Insult))
+	print ("Probability of getting a correct classification: " + str(Num_Right/float(N_Train)) )
+	print ("Probability of generating a false positive: " + str(False_Positive/(False_Positive+float(N_Train-N_Insult))) )
+	print ("Probability of correctly identifying insults: " + str(Correct_Insults/float(N_Insult))  )
 
 # Plots the ROC, and if Save_Plots==True, it saves it in "ROC.png"
 if(Plot_ROC):

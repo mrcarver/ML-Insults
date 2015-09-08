@@ -1,5 +1,5 @@
-import unicodedata
-import unidecode
+#import unicodedata
+#import unidecode
 import string
 import numpy as np
 import matplotlib.pyplot as plt
@@ -14,7 +14,7 @@ def Read_Data(filename):
 			break
 		line_list=list(line)
 		Flag=int(line_list[0])
-		for i in xrange(2,len(line_list)):
+		for i in range(2,len(line_list)):
 			if(line_list[i]==","):
 				if(i==2):
 					timestamp=None
@@ -35,7 +35,7 @@ def Read_Data(filename):
 		Data_Row=[Flag,Year,Month,Day,Hour,Minute,Second,Comment]
 		Data_Set.append(Data_Row)
 	return Data_Set
-
+'''
 #Not currently used -- not working.
 def Unicode_to_ASCII(in_string):
 	#table = {
@@ -48,15 +48,15 @@ def Unicode_to_ASCII(in_string):
 	#tbl = string.maketrans('\\xa',' ')
 	#out_string=string.translate(tbl)
 	return out_string
-
+'''
 def Naive_Bayes(Train,Dictionary,Class_Count):
 	N_Words=len(Dictionary)
 	N_Train=len(Train)
 	Count=np.zeros([N_Words,3])
-	for i in xrange(0,N_Train):
+	for i in range(0,N_Train):
 		Words=Train[i][7].split()
 		T_Count=np.zeros([N_Words,3])
-		for j in xrange(0,len(Words)):
+		for j in range(0,len(Words)):
 			Word_Check=Words[j].strip('"')
 			Word_Check=Word_Check.strip('.')
 			Word_Check=Word_Check.lower()
@@ -79,7 +79,7 @@ def ROC(Train,Prob,Save,N_Insult):
 	N_Bins=len(Bins)
 	False_Positives=np.empty([N_Bins])
 	True_Positives=np.empty([N_Bins])
-	for i in xrange(0,N_Bins):
+	for i in range(0,N_Bins):
 		TP_Count=0
 		FP_Count=0
 		for j in xrange(0,N_Train):

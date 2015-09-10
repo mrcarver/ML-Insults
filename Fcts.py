@@ -138,9 +138,7 @@ def getFeatureSpace(filename,minNumber):
         return ReducedFeatureSpace
 
 def getFeatureVector(Document,FeatureSpace,UnitSpace):
-        FeatureVector=[]
-        for i in range(0,len(FeatureSpace)):
-                FeatureVector.append(0)
+        FeatureVector=[0]*len(FeatureSpace)
         Words=Document.split()
         for i in range(0,len(Words)):
                 Word_Check=Words[i].strip('"')

@@ -11,6 +11,18 @@
 import Fcts
 import numpy as np
 
-FeatureSpace=Fcts.getFeatureSpace("train.csv",3)
-print (len(FeatureSpace))
+#FeatureSpace=Fcts.getFeatureSpace("train.csv",20)
+#print (len(FeatureSpace))
+
+TestFeatureSpace=["test","document","see","fuck","hello","two","one","function"]
+print (len(TestFeatureSpace))
+document="hello this is a test document to see if the feature vector function is working properly test hello"
+
+FeatureVector=Fcts.getFeatureVector(document,TestFeatureSpace,False)
+
+print (len(FeatureVector))
+
+for i in range(0,len(FeatureVector)):
+    print (FeatureVector[i])
+
 

@@ -107,9 +107,13 @@ def getFeatureSpace(filename,minNumber):
         FeatureSpace=[]
         ReducedFeatureSpace=[]
         Stop_Words=['and','or','is','on','the','at','that']
+        counter=0
         for line in IN:
                 if(not line):
                         break
+                counter += 1
+                #if(counter > 500):
+                #        break
                 for i in range(2,len(line)):
                         if(line[i]==","):
                                 if(i==2):
@@ -153,14 +157,3 @@ def getFeatureVector(Document,FeatureSpace,UnitSpace):
         return FeatureVector
 
 
-
-
-
-
-
-
-
-                                
-
-
-                         

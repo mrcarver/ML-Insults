@@ -127,9 +127,9 @@ plt.ylim([0.0,1.0])
 plt.ylabel("True Positive Rate")
 plt.savefig("ROC_test.png")
 
-area=0
-for p in range(0,100):
-    print (xp[p],yp[p])
+#area=0
+#for p in range(0,100):
+#    print (xp[p],yp[p])
   
 
 #print (len(FeatureVector))
